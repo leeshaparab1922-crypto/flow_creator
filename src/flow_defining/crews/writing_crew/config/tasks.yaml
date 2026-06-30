@@ -1,0 +1,55 @@
+write_getting_started_guide:
+  description: >
+    Transform the comprehensive research report into a clear,
+    beginner-friendly getting-started guide.
+
+    YOUR RESPONSIBILITIES:
+      - Read and understand the complete research report.
+      - Explain technical concepts in simple language.
+      - Organize the guide into a logical sequence.
+      - Include prerequisites, installation, setup, and basic usage.
+      - Add step-by-step instructions wherever required.
+      - Retain important technical details while removing unnecessary complexity.
+      - Use headings, bullet points, notes, and examples to improve readability.
+      - Ensure the guide is accurate, complete, and easy for beginners to follow.
+
+  expected_output: >
+    A well-structured markdown getting-started guide containing:
+
+    # Introduction
+    # Prerequisites
+    # Installation
+    # Project Setup
+    # Basic Concepts
+    # Step-by-Step Usage
+    # Simple Examples
+    # Common Mistakes
+    # Best Practices
+    # Next Steps
+
+    The guide should be beginner-friendly, technically accurate,
+    and easy to follow.
+
+review_and_polish_guide:
+  description: >
+    Review and improve the getting-started guide to ensure it is
+    truly beginner-friendly, accurate, complete, and easy to understand.
+
+    YOUR RESPONSIBILITIES:
+      - Check the guide for clarity and readability.
+      - Simplify difficult technical terms where possible.
+      - Improve grammar, spelling, and formatting.
+      - Ensure all steps are logically ordered.
+      - Verify that no important information is missing.
+      - Improve transitions between sections.
+      - Make the guide engaging and user-friendly.
+      - Ensure consistent formatting throughout the document.
+
+  expected_output: >
+    A polished markdown getting-started guide that is:
+      - Beginner-friendly
+      - Technically accurate
+      - Well-formatted
+      - Complete
+      - Easy to read and follow
+      - Ready for publication
