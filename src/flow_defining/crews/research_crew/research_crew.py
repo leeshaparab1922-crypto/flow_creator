@@ -96,8 +96,8 @@ class ResearchCrew():
                     self.arxiv_specialist(),
                     self.document_specialist()],
             tasks=[self.research_compilation()],
-            manager_agent = self.research_manager,
-            process=Process.sequential,
+            manager_agent = self.research_manager(),
+            process=Process.hierarchical,
             verbose=True,
         )
 
