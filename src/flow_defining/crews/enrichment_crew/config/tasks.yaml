@@ -1,0 +1,36 @@
+gap_fill_task:
+  description: >
+    The initial research for "{topic_hint}" is incomplete.
+
+    The following research gaps have been identified:
+
+    {gaps}
+
+    YOUR RESPONSIBILITIES:
+      - Read and understand each identified gap.
+      - Create a targeted search query for every gap.
+      - Search reliable web sources for the missing information.
+      - Extract only the content that directly fills the gap.
+      - Cite the source URL for every piece of information.
+      - If no reliable source exists, clearly state that the gap
+        could not be resolved.
+      - Do not repeat information already present in the research.
+      - Never invent or assume missing information.
+
+  expected_output: >
+    A markdown document containing:
+
+    ## Gap: [Gap Name]
+    - Targeted search summary
+    - Information found
+    - Source URL
+
+    Repeat the above for every identified gap.
+
+    If a gap cannot be resolved, include:
+    - Gap name
+    - Reason it could not be resolved
+    - Any attempted reliable sources
+
+    The output should contain only information that directly addresses
+    the identified gaps and should include citations for every finding.

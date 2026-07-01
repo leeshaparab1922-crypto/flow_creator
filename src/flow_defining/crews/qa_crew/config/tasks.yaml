@@ -1,0 +1,27 @@
+answer_question:
+  description: >
+    A student has asked the following question about {topic}:
+
+    {question}
+
+    Use ONLY the provided getting-started guide and research material
+    to answer the question.
+
+    YOUR RESPONSIBILITIES:
+      - Read and understand the student's question.
+      - Search the provided guide and research for relevant information.
+      - Give a clear, beginner-friendly explanation.
+      - Break complex concepts into simple steps.
+      - Include examples when available.
+      - Do not make up information.
+      - If the answer is not present in the provided material,
+        clearly state that the information is unavailable.
+
+  expected_output: >
+    A clear and accurate answer in Markdown that:
+      - Directly answers the student's question.
+      - Uses simple, beginner-friendly language.
+      - Includes step-by-step explanations when appropriate.
+      - Uses examples from the provided guide if available.
+      - States when the requested information is not available in the
+        provided material.
