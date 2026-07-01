@@ -10,30 +10,34 @@ class WritingCrew():
     agents: list[BaseAgent]
     tasks: list[Task]
 
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
+
+
     @agent
-    def researcher(self) -> Agent:
+    def technical_writer(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
+            config=self.agents_config['technical_writer'], # type: ignore[index]
             verbose=True
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def content_writer(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
+            config=self.agents_config['content_writer'], # type: ignore[index]
             verbose=True
         )
 
     @task
-    def research_task(self) -> Task:
+    def write_getting_started_guide(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+            config=self.tasks_config['write_getting_started_guide'], # type: ignore[index]
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def review_and_polish_guide(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
+            config=self.tasks_config['review_and_polish_guide'], # type: ignore[index]
             output_file='report.md'
         )
 
@@ -41,8 +45,10 @@ class WritingCrew():
     def crew(self) -> Crew:
         """Creates the WritingCrew crew"""
         return Crew(
-            agents=self.agents,
-            tasks=self.tasks,
+            agents=[self.content_writer(),
+                    self.technical_writer()],
+            tasks=[self.review_and_polish_guide(),
+                   self.write_getting_started_guide()],
             process=Process.sequential,
             verbose=True,
         )
