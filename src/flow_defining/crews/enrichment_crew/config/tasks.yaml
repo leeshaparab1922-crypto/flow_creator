@@ -1,0 +1,18 @@
+gap_fill_task:
+  description: >
+    The initial research on "{topic_hint}" was incomplete. The following gaps were identified:
+
+    {gaps}
+
+    For each gap in the list above:
+    1. Formulate a targeted search query for that specific gap.
+    2. Search the web and scrape the most relevant result.
+    3. Extract only the information that directly addresses the gap.
+    4. If no reliable source can be found for a gap, note it as unresolvable with the reason.
+
+    Do not re-research the topic generally. Every search must map to a named gap.
+  expected_output: >
+    Markdown document with one H2 section per gap, using the gap name as the heading.
+    Each section contains: the information found (with inline source URL), or a note
+    that the gap could not be resolved and why. No invented content.
+  agent: web_search_agent

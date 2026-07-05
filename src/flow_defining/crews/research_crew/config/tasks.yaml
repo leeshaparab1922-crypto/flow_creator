@@ -1,81 +1,107 @@
-research_compilation:
+analyse_youtube_sources:
   description: >
-    Coordinate the research team to gather comprehensive information from ALL provided
-    sources.
+    Fetch and analyse the transcripts for each YouTube URL in this list: {youtube_links}.
 
-    AVAILABLE SOURCES:
+    For each video produce one clearly labelled section containing:
+    - All shell commands or code snippets, quoted verbatim
+    - Key concepts introduced and a one-sentence definition of each
+    - Any errors shown and the exact fix demonstrated
+    - The video URL
 
-    YouTube Videos/Channels:
-    {youtube_links}
-
-    Web Pages/Articles/Code Documentation:
-    {webpage_links}
-
-    Research Papers:
-    {research_paper_links}
-
-    Documents (PDF/Text/Markdown):
-    {document_paths}
-
-    ---
-
-    YOUR RESPONSIBILITIES:
-
-    1. Identify which source types are provided (non-empty).
-    2. Delegate research tasks to appropriate specialists:
-      - YouTube Specialist: for youtube_links
-      - Web Specialist: for webpage_links
-      - Arxiv Specialist: for research_paper_links
-      - Document Specialist: for document_paths
-
-    3. Collect all the research findings from each of the specialist engaged.
-    4. Compile everything into ONE comprehensive research report
-      that includes:
-        - Executive Summary of all sources.
-        - Detailed findings organized by source type.
-        - All technical concepts, methods and implementations.
-        - Code examples and practical demos. (In proper code blocks)
-        - Best practices and tutorials.
-        - Step by Step guides and walkthroughs.
-        - Any charts or flows described as text.
-
-    CRITICAL RULES:
-      - Do Not shorten or summarize content - include EVERYTHING discovered.
-      - If a source field is empty, skip that source type entirely.
-      - Only Delegate to specialists whose source type has content.
-      - The final report generated should be exhaustive (minimum 5000 words).
-      - Include complete citations and links for all sources. 
+    If a video's transcript is disabled or unavailable, write a section noting the URL
+    and the reason it could not be processed.
   expected_output: >
-    A comprehensive research report in markdown format with the following structure:
+    Markdown document. One H2 section per video URL. Sections for inaccessible videos
+    clearly marked "## [INACCESSIBLE] <url>". No prose filler — only extracted facts.
+  agent: youtube_analyst
 
-    # Research Report: [Topic/Framework]
+scrape_web_sources:
+  description: >
+    Scrape and analyse each web page in this list: {webpage_links}.
 
-    ## EXECUTIVE Summary
-    [High-level overview of all sources and key findings]
+    For each page produce one clearly labelled section containing:
+    - Installation or setup steps (numbered, verbatim)
+    - All API references or configuration options mentioned
+    - Code samples (fenced code blocks, language tagged)
+    - Version numbers and compatibility notes
+    - The page URL
 
-    ## Youtube Content Analysis
-    [Detailed findings from all youtube videos/channels - ONLY IF youtube_links provided]
+    If a page cannot be scraped (bot-blocked, 404, timeout), write a section noting the
+    URL and the reason.
+  expected_output: >
+    Markdown document. One H2 section per URL. Inaccessible pages marked
+    "## [INACCESSIBLE] <url>". Code in fenced blocks. No invented content.
+  agent: web_researcher
 
-    ## Web Content Analysis
-    [Detailed findings from all web pages - ONLY IF webpage_links are provided]
+analyse_research_papers:
+  description: >
+    Retrieve and analyse each research paper in this list: {research_paper_links}.
 
-    ## Arxiv Research Analysis
-    [Detailed findings from research papers - ONLY IF research_paper_links provided]
+    For each paper produce one clearly labelled section containing:
+    - Paper title and authors (verbatim)
+    - The problem the paper solves (1–2 sentences)
+    - Methodology summary (3–5 bullet points)
+    - All benchmark numbers and evaluation results quoted verbatim from the paper
+    - Practical takeaway for a developer (1–2 sentences)
 
-    ## Document Analysis
-    [Detailed findings from documents - ONLY IF document_paths are provided]
+    All of the above must come from the Arxiv Paper Fetcher tool's output for this exact
+    paper. Try at most 2 tool calls total for a given paper (e.g. one by ID, one broader
+    retry). If neither call returns matching data, STOP calling the tool for that paper.
 
-    ## Technical Concepts and Implementations
-    [Comprehensive technical details extracted from all sources]
+    You must NEVER use your own training-data knowledge to fill in a paper's title,
+    authors, methodology, or benchmark numbers — not even if you recognise the arXiv ID
+    or believe you know the paper. If the tool fails, times out, or does not return the
+    paper, treat it as unavailable. Do not attempt to answer from memory.
+  expected_output: >
+    Markdown document. One H2 section per paper. Benchmark tables reproduced exactly.
+    No paraphrasing of numerical results. If a paper's data could not be retrieved from
+    the tool after at most 2 attempts, output "## [INACCESSIBLE] <url>" followed by the
+    exact tool error/reason — never substitute recalled or assumed knowledge of the paper.
+  agent: academic_analyst
 
-    ## CODE examples and Practical Demonstrations
-    [All code snippets, examples and implementations]
+process_documents:
+  description: >
+    Read and extract technical content from each local file in this list: {document_paths}.
 
-    ## Best Practices and Recommendations
-    [Best Practices gathered from all sources]
+    For each file produce one clearly labelled section containing:
+    - All code blocks (fenced, language tagged if determinable)
+    - All configuration tables or key-value lists
+    - All numbered setup or installation steps
+    - All API definitions or function signatures
+    - The file path
 
-    ## Complete Bibliography
-    [All source citations with links]
+    If a file cannot be read or is truncated (exceeds size limit), note the path and reason.
+  expected_output: >
+    Markdown document. One H2 section per file path. Code quoted exactly — never
+    paraphrased. Truncated files noted with how many bytes were read.
+  agent: document_analyst
 
-    The report must be extensive (5000+ words minimum) and include every 
-    relevant piece of information discovered from the provided sources
+compile_research_report:
+  description: >
+    You have received research sections from specialist analysts. Merge them into one
+    unified research report organised by concept, not by source.
+
+    Report structure:
+    1. ## Overview — what the topic is and the problem it solves (2–3 sentences)
+    2. ## Installation & Setup — consolidated install steps from all sources
+    3. ## Core Concepts — one subsection per major concept; cite which source introduced it
+    4. ## Code Examples — all distinct working examples; label each with its source
+    5. ## Advanced Topics — anything beyond beginner scope; clearly labelled as advanced
+    6. ## Sources — bullet list of every URL and file path successfully processed
+    7. ## Sources Not Accessible — bullet list of every URL/path that failed, with reason
+
+    Rules:
+    - Never fabricate information not present in the specialist reports
+    - When sources contradict each other, note the contradiction and both versions
+    - Preserve all code blocks exactly as received
+    - Every claim must be traceable to a source in ## Sources
+  expected_output: >
+    A single Markdown document following the seven-section structure above. Minimum 500
+    words. All code in fenced blocks. ## Sources and ## Sources Not Accessible sections
+    present even if empty.
+  agent: research_director
+  context:
+    - analyse_youtube_sources
+    - scrape_web_sources
+    - analyse_research_papers
+    - process_documents
